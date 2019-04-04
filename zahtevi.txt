@@ -1,0 +1,6 @@
+1. Izbor grada
+2. Detaljan pregled po 3h intervalima
+3. Izbor dana (1/5 dana moguæih)
+4. Istorija pretraga
+5. Bookmark / zvezdica / omiljeni bla bla
+6. Auto resize
