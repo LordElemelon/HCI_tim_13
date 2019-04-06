@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tim_13_forecast"
         xmlns:models="clr-namespace:tim_13_forecast.models" x:Class="tim_13_forecast.MainWindow"
+        xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -31,7 +32,7 @@
         <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="383,365,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
         <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="496,365,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
         <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="614,365,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
-        <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" IsEditable="True" IsSynchronizedWithCurrentItem="True"/>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding AllCityList}" behaviors:AutoCompleteBehavior.AutoCompleteIndicator="@"/>
         <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
 
     </Grid>

@@ -8,15 +8,11 @@ namespace tim_13_forecast.models
 {
     class FiveDayForecast
     {
-        public Coord coord { get; set; }
-        public Weather weather { get; set; }
-        public Main main { get; set; }
-        public Wind wind { get; set; }
-        public Clouds clouds { get; set; }
-        public Sys sys { get; set; }
-        public RootObject rootobject { get; set; }
-        public Rain rain { get; set; }
+        public string cod { get; set; }
+        public double message { get; set; }
+        public int cnt { get; set; }
         public List<List> list { get; set; }
+        public City city { get; set; }
     }
 
     public class Main

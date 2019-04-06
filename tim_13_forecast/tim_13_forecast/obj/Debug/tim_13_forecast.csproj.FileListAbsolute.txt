@@ -105,3 +105,16 @@ C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\obj\Debug\MainWindow.b
 C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.g.resources
 C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.Properties.Resources.resources
 C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.csproj.GenerateResource.Cache
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\MainWindow.xaml.cs
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.DataVisualization.Toolkit.dll
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.Input.Toolkit.dll
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.Layout.Toolkit.dll
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.WPF.Themes.dll
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\WPFTextBoxAutoComplete.dll
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.DataVisualization.Toolkit.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.Input.Toolkit.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.Layout.Toolkit.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\DotNetProjects.WPF.Themes.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\WPFTextBoxAutoComplete.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\ComplexWindow.g.cs
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\ComplexWindow.baml

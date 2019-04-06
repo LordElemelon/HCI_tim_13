@@ -21,6 +21,9 @@ using System.Web;
 using Newtonsoft.Json;
 using System.Net.Sockets;
 using tim_13_forecast.models3;
+using System.Reflection;
+using System.IO;
+using System.Collections.ObjectModel;
 
 namespace tim_13_forecast
 {
@@ -31,6 +34,7 @@ namespace tim_13_forecast
     {
         private FiveDayForecast product;
         private DateTime count;
+        public ObservableCollection<string> AllCityList { get; set; }
         static HttpClient client = new HttpClient();
         static HttpClient client2 = new HttpClient();
         static string apiFiveDayUrl = "data/2.5/forecast?q=";
@@ -96,6 +100,12 @@ namespace tim_13_forecast
             this.count = new DateTime();
             this.product = new FiveDayForecast();
 
+            this.AllCityList = new ObservableCollection<string>()
+            {
+            "London,uk",
+            "London,us"
+            };
+
 
             client2.BaseAddress = new Uri("http://api.ipstack.com/");
             client2.DefaultRequestHeaders.Accept.Clear();
@@ -124,19 +134,20 @@ namespace tim_13_forecast
         {
             // SVAKI POZIV API TREBA DA IMA AWAIT ISPRED FUNKCIJE
             CurrentForecast product = await GetCurrentAsync(apiCurrentUrl + searchBox.Text + apiAppId);
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
 
             if (product.weather[0].main.Equals("Clear"))
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
 
             }
             else if (product.weather[0].main.Equals("Clouds"))
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
             }
             else
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
             }
 
 
@@ -331,18 +342,20 @@ namespace tim_13_forecast
 
         private void Draw(Image image, String type)
         {
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
+
             if (type.Equals("Clear"))
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
 
             }
             else if (type.Equals("Clouds"))
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\cloud.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\cloud.png"));
             }
             else
             {
-                image.Source = new BitmapImage(new Uri(@"C:\Users\Dz0n1Pr0\Desktop\HCI projekat\HCI_tim_13\tim_13_forecast\tim_13_forecast\images\rain.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
             }
         }
 
