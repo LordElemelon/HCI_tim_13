@@ -24,23 +24,40 @@ using tim_13_forecast.models3;
 using System.Reflection;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Timers;
 
 namespace tim_13_forecast
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private FiveDayForecast product;
         private DateTime count;
+        private int dayComparison;
+        private string cityToRefresh;
         public ObservableCollection<string> AllCityList { get; set; }
+        private static System.Timers.Timer guiRefreshTimer;
         static HttpClient client = new HttpClient();
         static HttpClient client2 = new HttpClient();
         static string apiFiveDayUrl = "data/2.5/forecast?q=";
         static string apiCurrentUrl = "data/2.5/weather?q=";
         static string apiAppId = "&appid=f2dc7da9486c3f883a8caa8329c8b11d";
         static string apiIP = "?access_key=0aaf859bb32648d8c05bf3b57ff79a88&fields=latitude,longitude";
+
+        #region PropertyChangedNotifier
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
         static async Task<CurrentForecast> GetCurrentAsync(string path)
         {
@@ -99,13 +116,39 @@ namespace tim_13_forecast
             InitializeComponent();
             this.count = new DateTime();
             this.product = new FiveDayForecast();
+            this.cityToRefresh = "";
+            this.dayComparison = 0;
 
-            this.AllCityList = new ObservableCollection<string>()
-            {
-            "London,uk",
-            "London,us"
-            };
+            #region CityList
+            AllCityList = new ObservableCollection<string>();
+            AllCityList.Add("London,UK");
+            AllCityList.Add("London,US");
+            AllCityList.Add("Paris,FR");
+            AllCityList.Add("Bangkok,TH");
+            AllCityList.Add("Singapore,SG");
+            AllCityList.Add("New York,US");
+            AllCityList.Add("Kuala Lumpur,MY");
+            AllCityList.Add("Hong Kong,HK");
+            AllCityList.Add("Dubai,AE");
+            AllCityList.Add("Istanbul,TR");
+            AllCityList.Add("Rome,IT");
+            AllCityList.Add("Shangai,CN");
+            AllCityList.Add("Los Angeles,CL");
+            AllCityList.Add("Las Vegas,US");
+            AllCityList.Add("Miami,US");
+            AllCityList.Add("Toronto,CA");
+            AllCityList.Add("Barcelona,ES");
+            AllCityList.Add("Dublin,IE");
+            AllCityList.Add("Amsterdam,NL");
+            AllCityList.Add("Moscow,RU");
+            AllCityList.Add("Cairo,EG");
+            AllCityList.Add("Prague,CZ");
+            AllCityList.Add("Belgrade,RS");
+            AllCityList.Add("Novi Sad,RS");
+            AllCityList.Add("Tokyo,JP");
 
+            this.DataContext = this;
+            #endregion
 
             client2.BaseAddress = new Uri("http://api.ipstack.com/");
             client2.DefaultRequestHeaders.Accept.Clear();
@@ -135,7 +178,7 @@ namespace tim_13_forecast
             // SVAKI POZIV API TREBA DA IMA AWAIT ISPRED FUNKCIJE
             CurrentForecast product = await GetCurrentAsync(apiCurrentUrl + searchBox.Text + apiAppId);
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
-
+            this.dayComparison = 0;
             if (product.weather[0].main.Equals("Clear"))
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
@@ -154,35 +197,48 @@ namespace tim_13_forecast
 
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void refreshGui(Object source=null, ElapsedEventArgs e=null)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
-            City.Content = searchBox.Text;
-
-            foreach (models.List list in product.list)
+            await this.Dispatcher.Invoke(async() =>
             {
-                DateTime startDate = DateTime.Parse(list.dt_txt);
+                product = await GetFiveDayAsync(apiFiveDayUrl + cityToRefresh + apiAppId);
+                City.Content = cityToRefresh;
 
-                TimeSpan tz = DateTime.Now - startDate;
-                Console.WriteLine(startDate.Month + "/" + startDate.Day + " OVO JE DATUM");
-                if (Math.Abs(tz.TotalMinutes) <= 90)
-                {
-                    this.count = startDate;
-                    Overview.Content = list.weather[0].description;
-                    Temperatura.Content = list.main.temp_min + "/" + list.main.temp_max;
-                    Humidity.Content = "Humidity: " + list.main.humidity + "%";
-                    Wind.Content = "Wind: " + list.wind.speed + "km/s";
-                    this.Draw(image, list.weather[0].main);
-                    break;
-                }
-
-
-            }
+                
+                        Overview.Content = product.list[dayComparison].weather[0].description;
+                        Temperatura.Content = product.list[dayComparison].main.temp_min + "/" + product.list[dayComparison].main.temp_max;
+                        Humidity.Content = "Humidity: " + product.list[dayComparison].main.humidity + "%";
+                        Wind.Content = "Wind: " + product.list[dayComparison].wind.speed + "km/s";
+                        this.Draw(image, product.list[dayComparison].weather[0].main);
+                       
+                
+            });
+            
         }
 
-        private async void Day1_Click(object sender, RoutedEventArgs e)
+        private void setupTimer()
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            if (guiRefreshTimer != null)
+            {
+                guiRefreshTimer.Stop();
+                guiRefreshTimer.Dispose();
+            }
+            refreshGui();
+            guiRefreshTimer = new System.Timers.Timer(5000);
+            guiRefreshTimer.Elapsed += refreshGui;
+            guiRefreshTimer.AutoReset = true;
+            guiRefreshTimer.Enabled = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.cityToRefresh = searchBox.Text;
+            setupTimer();
+        }
+
+        private void Day1_Click(object sender, RoutedEventArgs e)
+        {
+            /*product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
             City.Content = searchBox.Text;
             foreach (models.List list in product.list)
             {
@@ -204,12 +260,14 @@ namespace tim_13_forecast
                 }
 
 
-            }
+            }*/
+            dayComparison = 0;
+            setupTimer();
         }
 
-        private async void Day2_Click(object sender, RoutedEventArgs e)
+        private void Day2_Click(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            /*product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
             City.Content = searchBox.Text;
             foreach (models.List list in product.list)
             {
@@ -231,12 +289,14 @@ namespace tim_13_forecast
                 }
 
 
-            }
+            }*/
+            dayComparison = 8;
+            setupTimer();
         }
 
-        private async void Day3_Click(object sender, RoutedEventArgs e)
+        private void Day3_Click(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            /*product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
             City.Content = searchBox.Text;
             foreach (models.List list in product.list)
             {
@@ -257,12 +317,14 @@ namespace tim_13_forecast
                 }
 
 
-            }
+            }*/
+            dayComparison = 16;
+            setupTimer();
         }
 
-        private async void Day4_Click(object sender, RoutedEventArgs e)
+        private void Day4_Click(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            /*product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
             City.Content = searchBox.Text;
             foreach (models.List list in product.list)
             {
@@ -283,12 +345,14 @@ namespace tim_13_forecast
                 }
 
 
-            }
+            }*/
+            dayComparison = 24;
+            setupTimer();
         }
 
-        private async void Day5_Click(object sender, RoutedEventArgs e)
+        private void Day5_Click(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + "London,us" + apiAppId);
+            /*product = await GetFiveDayAsync(apiFiveDayUrl + "London,us" + apiAppId);
             City.Content = searchBox.Text;
             foreach (models.List list in product.list)
             {
@@ -309,38 +373,38 @@ namespace tim_13_forecast
                 }
 
 
-            }
+            }*/
+            dayComparison = 32;
+            setupTimer();
         }
 
         private void Detailed_View_Click(object sender, RoutedEventArgs e)
         {
             var s = new ComplexWindow();
-            for (int i = 0; i < product.list.Count;i++){
-                if (count.Equals(DateTime.Parse(product.list[i].dt_txt)))
-                {
-                    this.Draw(s.image1, product.list[i].weather[0].main);
+            
+                    this.Draw(s.image1, product.list[this.dayComparison].weather[0].main);
 
-                    this.Draw(s.image2, product.list[i+1].weather[0].main);
+                    this.Draw(s.image2, product.list[this.dayComparison + 1].weather[0].main);
 
-                    this.Draw(s.image3, product.list[i+2].weather[0].main);
+                    this.Draw(s.image3, product.list[this.dayComparison + 2].weather[0].main);
 
-                    this.Draw(s.image4, product.list[i+3].weather[0].main);
+                    this.Draw(s.image4, product.list[this.dayComparison + 3].weather[0].main);
 
-                    this.Draw(s.image5, product.list[i+4].weather[0].main);
+                    this.Draw(s.image5, product.list[this.dayComparison + 4].weather[0].main);
 
-                    this.Draw(s.image6, product.list[i + 5].weather[0].main);
+                    this.Draw(s.image6, product.list[this.dayComparison + 5].weather[0].main);
 
-                    this.Draw(s.image7, product.list[i + 6].weather[0].main);
+                    this.Draw(s.image7, product.list[this.dayComparison + 6].weather[0].main);
 
-                    this.Draw(s.image8, product.list[i + 7].weather[0].main);
+                    this.Draw(s.image8, product.list[this.dayComparison + 7].weather[0].main);
 
-                    break;
-                }
-            }
-            s.Show();
+                    
+            
+
+        s.Show();
         }
 
-        private void Draw(Image image, String type)
+        private void Draw(Image image, string type)
         {
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
 

@@ -22,7 +22,6 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label x:Name="label1" Content="Label" HorizontalAlignment="Left" Height="25" Margin="416,249,0,0" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.976,-0.063"/>
         <Label x:Name="Humidity" Content="Label" HorizontalAlignment="Left" Height="25" Margin="416,249,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063"/>
         <Label x:Name="Wind" Content="Label" HorizontalAlignment="Left" Margin="416,289,0,0" VerticalAlignment="Top" Width="169"/>
         <Label x:Name="City" Content="Label" HorizontalAlignment="Left" Height="35" Margin="54,120,0,0" VerticalAlignment="Top" Width="145" FontSize="16"/>
@@ -32,7 +31,7 @@
         <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="383,365,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
         <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="496,365,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
         <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="614,365,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
-        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding AllCityList}" behaviors:AutoCompleteBehavior.AutoCompleteIndicator="@"/>
+        <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" IsEditable="True" IsTextSearchEnabled="True" ItemsSource="{Binding Path=AllCityList}"/>
         <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
 
     </Grid>
