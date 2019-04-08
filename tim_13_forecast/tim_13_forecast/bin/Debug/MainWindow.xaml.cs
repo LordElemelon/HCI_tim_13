@@ -129,7 +129,7 @@ namespace tim_13_forecast
                     Favourites = fav;
                     foreach(City c in fav)
                     {
-                        listView.Items.Add(c.name + ","+c.country);
+                        //listView.Items.Add(c.name + ","+c.country);
                     }
                 }
             }
@@ -469,7 +469,7 @@ namespace tim_13_forecast
             if (!exists)
             {
                 Favourites.Add(new City(product.city.id, product.city.name, product.city.coord, product.city.country, product.city.population));
-                listView.Items.Add(searchBox.Text);
+                //listView.Items.Add(searchBox.Text);
                 SaveFavourites();
             }    
 
@@ -486,7 +486,7 @@ namespace tim_13_forecast
                 if (product.city.id == Favourites.ElementAt(i).id)
                 {
                     Favourites.Remove(Favourites.ElementAt(i));
-                    listView.Items.Remove(searchBox.Text);
+                    //listView.Items.Remove(searchBox.Text);
                     SaveFavourites();
                     break;
                 }

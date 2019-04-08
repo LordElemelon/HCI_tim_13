@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
+
         <Style x:Key="FavouriteYes" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -30,7 +31,7 @@
                         Stretch="Fill"/>
 
                         </Canvas>
-                       
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -56,7 +57,34 @@
                         Stretch="Fill"/>
 
                         </Canvas>
-                        
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Btnn" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Canvas
+                    Width="46"
+                    Height="46"
+                    Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                            <Path
+                        x:Name="ButtonPath"
+                        Width="24.166"
+                        Height="24"
+                        Canvas.Left="17.416"
+                        Canvas.Top="18"
+                        Data="F1 M 17.416,32.25L 32.910,32.25L 38,18L 43.089,32.25L 58.583,32.25L 45.679,41.494L 51.458,56L 38,48.083L 26.125,56L 30.597,41.710L 17.416,32.25 Z "
+                        Stroke="Yellow"
+                        Fill="Yellow"
+                        StrokeThickness="2"
+                        Stretch="Fill"/>
+
+                        </Canvas>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -64,8 +92,8 @@
 
     </Window.Resources>
     <Grid>
-        
-        
+
+
         <Image x:Name="image" HorizontalAlignment="Left" Height="124" Margin="305,100,0,0" VerticalAlignment="Top" Width="167"/>
         <Label x:Name="Temperatura" Content="Label" HorizontalAlignment="Left" Height="67" Margin="292,247,0,0" VerticalAlignment="Top" Width="99" RenderTransformOrigin="0.5,0.5" FontSize="14">
             <Label.RenderTransform>
@@ -86,39 +114,39 @@
         <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="383,365,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
         <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="496,365,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
         <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="614,365,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
-        <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
-                  IsTextSearchEnabled="True" ItemsSource="{Binding Path=AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" />
 
         <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
-        <ToggleButton
+        <Grid HorizontalAlignment="Left" Height="26" Margin="0,0,-0.4,0" VerticalAlignment="Top" Width="794">
+            <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="26" Margin="517,0,0,0" VerticalAlignment="Top" Width="277" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
+                  IsTextSearchEnabled="True" ItemsSource="{Binding AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" />
+            <ToggleButton
             x:Name="favouriteNO"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Margin="230,5,0,0"
+            Margin="350,-16,0,0"
             Padding="2"
             Style="{StaticResource FavouriteNo}"
             Checked="favourite_Checked"
             Unchecked="favourite_Checked"
             Visibility="Visible"/>
-        <ToggleButton
-            x:Name="favouriteYES"
+            <ToggleButton
+                x:Name="favouriteYES"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="350,-16,0,0"
+                Padding="2"
+                Style="{StaticResource FavouriteYes}"
+                Checked="favourite_Unchecked"
+                Unchecked="favourite_Unchecked"
+                Visibility="Hidden"/>
+            <Button
+            x:Name="favouriteB"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Margin="230,5,0,0"
+            Margin="0,-16,0,0"
             Padding="2"
-            Style="{StaticResource FavouriteYes}"
-            Checked="favourite_Unchecked"
-            Unchecked="favourite_Unchecked"
-            Visibility="Hidden"/>
-
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="292" Margin="600,23,0,0" VerticalAlignment="Top" Width="161" SelectionMode="Single" SelectionChanged="ListView_SelectionChanged">
-            
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Favourites" Width="100"/>
-                </GridView>
-            </ListView.View>
-           
-        </ListView>
+            Style="{StaticResource ResourceKey=Btnn}"
+            Visibility="Visible" Height="46" Width="37"/>
+        </Grid>
     </Grid>
 </Window>
