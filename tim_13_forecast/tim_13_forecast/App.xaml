@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:tim_13_forecast"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+       
     </Application.Resources>
 </Application>

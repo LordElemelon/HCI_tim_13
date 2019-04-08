@@ -129,7 +129,7 @@ namespace tim_13_forecast
                     Favourites = fav;
                     foreach(City c in fav)
                     {
-                        listView.Items.Add(c.name + ", "+c.country);
+                        listView.Items.Add(c.name + ","+c.country);
                     }
                 }
             }
@@ -145,7 +145,6 @@ namespace tim_13_forecast
             this.cityToRefresh = "";
             this.dayComparison = 0;
            
-
             #region CityList
             AllCityList = new ObservableCollection<string>();
             AllCityList.Add("London,UK");
@@ -202,29 +201,7 @@ namespace tim_13_forecast
         }
 
         // SVAKA FUNKCIJA KOJA POZIVA API MORA BITI ASYNC
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // SVAKI POZIV API TREBA DA IMA AWAIT ISPRED FUNKCIJE
-            CurrentForecast product = await GetCurrentAsync(apiCurrentUrl + searchBox.Text + apiAppId);
-            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
-            this.dayComparison = 0;
-            if (product.weather[0].main.Equals("Clear"))
-            {
-                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
-
-            }
-            else if (product.weather[0].main.Equals("Clouds"))
-            {
-                image.Source = new BitmapImage(new Uri(path + @"\images\clouds.png"));
-            }
-            else
-            {
-                image.Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
-            }
-
-
-
-        }
+       
 
         private async void refreshGui(Object source=null, ElapsedEventArgs e=null)
         {
@@ -475,11 +452,12 @@ namespace tim_13_forecast
         }
 
         
-        private async void favourite_Checked(object sender, RoutedEventArgs e)
+        private void favourite_Checked(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
-            Console.WriteLine(product.city.name);
-            City.Content = searchBox.Text;
+               
+            this.favouriteNO.Visibility = Visibility.Hidden;
+            this.favouriteYES.Visibility = Visibility.Visible;
+           
             bool exists = false;
             for (int i = 0; i < Favourites.Count; i++)
             {
@@ -498,10 +476,11 @@ namespace tim_13_forecast
 
     }
 
-    private async void favourite_Unchecked(object sender, RoutedEventArgs e)
+    private void favourite_Unchecked(object sender, RoutedEventArgs e)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
-            City.Content = searchBox.Text;
+           
+            this.favouriteYES.Visibility = Visibility.Hidden;
+            this.favouriteNO.Visibility = Visibility.Visible;
             for (int i = 0; i < Favourites.Count; i++)
             {
                 if (product.city.id == Favourites.ElementAt(i).id)
@@ -514,12 +493,84 @@ namespace tim_13_forecast
             }
 
         }
-        public Brush Fill { get; set; }
+       
         private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            //favourite.Style = this.FindResource("ToggleButtonStyle1") as Style;
+            this.favouriteYES.Visibility = Visibility.Hidden;
+            this.favouriteNO.Visibility = Visibility.Visible;
+
         }
 
+        private void ComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            this.cityToRefresh = searchBox.Text;
+            setupTimer();
+            bool found = false;
+            string selected_city = searchBox.SelectedValue.ToString();
+            for (int i = 0; i < Favourites.Count; i++)
+            {
+                if (selected_city == Favourites.ElementAt(i).name + "," + Favourites.ElementAt(i).country)
+                {
+                    this.favouriteYES.Visibility = Visibility.Visible;
+                    this.favouriteNO.Visibility = Visibility.Hidden;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                this.favouriteYES.Visibility = Visibility.Hidden;
+                this.favouriteNO.Visibility = Visibility.Visible;
+            }
+
+        }
        
+
+        private void searchBox_KeyUp(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Return)
+            {
+                this.cityToRefresh = searchBox.Text;
+                setupTimer();
+                bool found = false;
+                string selected_city = searchBox.Text;
+                for (int i = 0; i < Favourites.Count; i++)
+                {
+                    if (selected_city == Favourites.ElementAt(i).name + "," + Favourites.ElementAt(i).country)
+                    {
+                        this.favouriteYES.Visibility = Visibility.Visible;
+                        this.favouriteNO.Visibility = Visibility.Hidden;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    this.favouriteYES.Visibility = Visibility.Hidden;
+                    this.favouriteNO.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+
+                return;    
+            }
+            
+
+        }
+
+        private void ListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var item = (sender as ListView).SelectedItem;
+            if (item != null)
+            {
+                this.cityToRefresh = (string) item;
+                setupTimer();
+
+            }
+            
+            
+        }
     }
 }
