@@ -38,6 +38,7 @@ namespace tim_13_forecast
         private DateTime count;
         private int dayComparison;
         private string cityToRefresh;
+        public List<City> Favourites { get; set; }
         public ObservableCollection<string> AllCityList { get; set; }
         private static System.Timers.Timer guiRefreshTimer;
         static HttpClient client = new HttpClient();
@@ -46,6 +47,8 @@ namespace tim_13_forecast
         static string apiCurrentUrl = "data/2.5/weather?q=";
         static string apiAppId = "&appid=f2dc7da9486c3f883a8caa8329c8b11d";
         static string apiIP = "?access_key=0aaf859bb32648d8c05bf3b57ff79a88&fields=latitude,longitude";
+
+        
 
         #region PropertyChangedNotifier
         protected virtual void OnPropertyChanged(string name)
@@ -58,6 +61,8 @@ namespace tim_13_forecast
 
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
+
+        
 
         static async Task<CurrentForecast> GetCurrentAsync(string path)
         {
@@ -111,6 +116,27 @@ namespace tim_13_forecast
             return product;
         }
 
+        public void LoadFavourites()
+        {
+
+            using (StreamReader file = File.OpenText("../../favourites.txt"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                List<City> fav = (List<City>)serializer.Deserialize(file, typeof(List<City>));
+                if (fav == null)
+                    Favourites = new List<City>();
+                else {
+                    Favourites = fav;
+                    foreach(City c in fav)
+                    {
+                        listView.Items.Add(c.name + ", "+c.country);
+                    }
+                }
+            }
+
+
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -118,6 +144,7 @@ namespace tim_13_forecast
             this.product = new FiveDayForecast();
             this.cityToRefresh = "";
             this.dayComparison = 0;
+           
 
             #region CityList
             AllCityList = new ObservableCollection<string>();
@@ -149,6 +176,8 @@ namespace tim_13_forecast
 
             this.DataContext = this;
             #endregion
+
+            LoadFavourites();
 
             client2.BaseAddress = new Uri("http://api.ipstack.com/");
             client2.DefaultRequestHeaders.Accept.Clear();
@@ -186,11 +215,11 @@ namespace tim_13_forecast
             }
             else if (product.weather[0].main.Equals("Clouds"))
             {
-                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\clouds.png"));
             }
             else
             {
-                image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
+                image.Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
             }
 
 
@@ -435,5 +464,62 @@ namespace tim_13_forecast
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
+
+        public void SaveFavourites()
+        {
+            using (StreamWriter file = File.CreateText(@"../../favourites.txt"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, Favourites);
+            }
+        }
+
+        
+        private async void favourite_Checked(object sender, RoutedEventArgs e)
+        {
+            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            Console.WriteLine(product.city.name);
+            City.Content = searchBox.Text;
+            bool exists = false;
+            for (int i = 0; i < Favourites.Count; i++)
+            {
+                if (product.city.id == Favourites.ElementAt(i).id)
+                {
+                    exists = true;
+                }
+            }
+            if (!exists)
+            {
+                Favourites.Add(new City(product.city.id, product.city.name, product.city.coord, product.city.country, product.city.population));
+                listView.Items.Add(searchBox.Text);
+                SaveFavourites();
+            }    
+
+
+    }
+
+    private async void favourite_Unchecked(object sender, RoutedEventArgs e)
+        {
+            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            City.Content = searchBox.Text;
+            for (int i = 0; i < Favourites.Count; i++)
+            {
+                if (product.city.id == Favourites.ElementAt(i).id)
+                {
+                    Favourites.Remove(Favourites.ElementAt(i));
+                    listView.Items.Remove(searchBox.Text);
+                    SaveFavourites();
+                    break;
+                }
+            }
+
+        }
+        public Brush Fill { get; set; }
+        private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            //favourite.Style = this.FindResource("ToggleButtonStyle1") as Style;
+        }
+
+       
     }
 }

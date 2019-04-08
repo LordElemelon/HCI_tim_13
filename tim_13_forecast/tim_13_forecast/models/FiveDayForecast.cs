@@ -81,6 +81,15 @@ namespace tim_13_forecast.models
         public Coord coord { get; set; }
         public string country { get; set; }
         public int population { get; set; }
+        
+        public City(int id_, string name_, Coord coord, string country, int population)
+        {
+            this.id = id_;
+            this.name = name_;
+            this.coord = coord;
+            this.country = country;
+            this.population = population;
+        }
     }
 
     public class RootObject

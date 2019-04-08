@@ -9,6 +9,43 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Canvas
+                    Width="46"
+                    Height="46"
+                    Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                                <Path
+                        x:Name="ButtonPath"
+                        Width="24.166"
+                        Height="24"
+                        Canvas.Left="17.416"
+                        Canvas.Top="18"
+                        Data="F1 M 17.416,32.25L 32.910,32.25L 38,18L 43.089,32.25L 58.583,32.25L 45.679,41.494L 51.458,56L 38,48.083L 26.125,56L 30.597,41.710L 17.416,32.25 Z "
+                        Fill="{TemplateBinding Background}"
+                        Stroke="Yellow"
+                        StrokeThickness="2"
+                        Stretch="Fill"/>
+
+                            </Canvas>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter TargetName="ButtonPath" Property="Fill" Value="Yellow"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="false">
+                                    <Setter TargetName="ButtonPath" Property="Fill" Value="Transparent"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </Grid.Resources>
         <Button Content="Test" HorizontalAlignment="Left" Margin="54,68,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Button Content="Test2" HorizontalAlignment="Left" Margin="165,68,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
         <Image x:Name="image" HorizontalAlignment="Left" Height="124" Margin="305,100,0,0" VerticalAlignment="Top" Width="167"/>
@@ -31,8 +68,25 @@
         <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="383,365,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
         <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="496,365,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
         <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="614,365,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
-        <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" IsEditable="True" IsTextSearchEnabled="True" ItemsSource="{Binding Path=AllCityList}"/>
-        <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
+        <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="25" Margin="54,23,0,0" VerticalAlignment="Top" Width="186" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True"  IsTextSearchEnabled="True" ItemsSource="{Binding Path=AllCityList}" />
 
+        <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
+        <ToggleButton
+            x:Name="favourite"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="230,5,0,0"
+            Padding="2"
+            Style="{StaticResource ToggleButtonStyle1}"
+            Checked="favourite_Checked"
+            Unchecked="favourite_Unchecked"/>
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="292" Margin="600,23,0,0" VerticalAlignment="Top" Width="161">
+            
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Favourites" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

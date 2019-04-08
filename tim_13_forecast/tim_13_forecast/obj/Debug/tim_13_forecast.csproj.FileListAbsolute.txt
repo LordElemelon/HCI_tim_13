@@ -118,3 +118,5 @@ C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\D
 C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\WPFTextBoxAutoComplete.pdb
 C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\ComplexWindow.g.cs
 C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\ComplexWindow.baml
+C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\bin\Debug\WPFTextBoxAutoComplete.dll
+C:\Users\Anci\Desktop\hci\tim_13_forecast\tim_13_forecast\bin\Debug\WPFTextBoxAutoComplete.pdb
