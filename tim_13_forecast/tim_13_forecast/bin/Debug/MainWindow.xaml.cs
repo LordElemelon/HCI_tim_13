@@ -264,8 +264,7 @@ namespace tim_13_forecast
                 Humidity.Content = "Humidity: " + product.list[dayComparison].main.humidity + "%";
                 Wind.Content = "Wind: " + product.list[dayComparison].wind.speed + "km/s";
                 this.Draw(image, product.list[dayComparison].weather[0].main);
-
-
+                
             });
 
         }

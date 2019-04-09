@@ -39,7 +39,6 @@ namespace tim_13_forecast
                 {
                     City = city.name + "," + city.country,
                     Degree = temperature.ElementAt(brojac),
-                    Picture = slike.ElementAt(brojac)
                 };
 
                 History.Items.Add(item);
@@ -49,7 +48,9 @@ namespace tim_13_forecast
 
         private void History_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            mw.setCityToRefresh(History.SelectedValue.ToString());
+
+            ServerListItem temp=History.SelectedItems[0] as ServerListItem;
+            mw.setCityToRefresh(temp.City);
         }
     }
 }

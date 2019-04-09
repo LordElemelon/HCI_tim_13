@@ -15,8 +15,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="City" Width="100" DisplayMemberBinding="{Binding Path=City}"/>
-                    <GridViewColumn Header="Degree" Width="70" DisplayMemberBinding="{Binding Path=Degree}"/>
-                    <GridViewColumn Width="70" Header=""  DisplayMemberBinding="{Binding Path=Picture}"/>
+                    <GridViewColumn Header="Degree" Width="137" DisplayMemberBinding="{Binding Path=Degree}"/>
 
                 </GridView>
             </ListView.View>
