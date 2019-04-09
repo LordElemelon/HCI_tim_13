@@ -181,7 +181,7 @@
                     x:Name="button1" Content="History" Width="50" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"  Height="24"/>
+                    Margin="0,0,0,0"  Height="24" Click="Button1_Click"/>
                 </Grid>
 
                 <Grid DockPanel.Dock="Bottom" Height="381" Margin="5.4,0,-0.4,0">

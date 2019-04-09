@@ -41,7 +41,7 @@ namespace tim_13_forecast
         public string cityToRefresh;
         private FavouriteWindow favWin;
         private ComplexWindow s;
-        
+        public List<City> CitiesHistory { get; set; }
         public List<City> Favourites { get; set; }
         public ObservableCollection<string> AllCityList { get; set; }
         private static System.Timers.Timer guiRefreshTimer;
@@ -149,7 +149,7 @@ namespace tim_13_forecast
             this.favWin = new FavouriteWindow(this);
             this.s = new ComplexWindow();
             Closing += this.OnWindowClosing;
-            
+            CitiesHistory = new List<City>(10);
 
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
             this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
@@ -289,6 +289,8 @@ namespace tim_13_forecast
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
+            AddToHistory();
+
         }
 
         private void Day1_Click(object sender, RoutedEventArgs e)
@@ -480,6 +482,8 @@ namespace tim_13_forecast
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
+            AddToHistory();
+
             string selected_city = null;
             bool found = false;
             try
@@ -509,7 +513,31 @@ namespace tim_13_forecast
             }
 
         }
-       
+
+        private async void AddToHistory()
+        {
+            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
+            City currentCity = product.city;
+            City.Content = searchBox.Text;
+
+            foreach (City city in CitiesHistory)
+            {
+                if (city.id.Equals(currentCity.id))
+                {
+                    CitiesHistory.Remove(city);
+                    break;
+                }
+            }
+
+            if (CitiesHistory.Count == 10)
+            {
+                CitiesHistory.RemoveAt(9);
+            }
+            CitiesHistory.Insert(0, currentCity);
+
+
+
+        }
 
         private void searchBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -550,7 +578,44 @@ namespace tim_13_forecast
             favWin.Show();
         }
 
+        private async void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
+            List<string> temperature = new List<string>();
+            List<Image> slike = new List<Image>();
+            int brojac = 0;
+            foreach (City city in CitiesHistory)
+            {
+                var product1 = await GetFiveDayAsync(apiFiveDayUrl + city.name + "," + city.country + apiAppId);
+                string temperatura = product1.list[dayComparison].main.temp_min + "/" + product.list[dayComparison].main.temp_max;
+                temperature.Add(temperatura);
+                string type = product1.list[dayComparison].weather[0].main;
+                if (type.Equals("Clear"))
+                {
+                    slike.Add(new Image());
+                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
 
+                }
+                else if (type.Equals("Clouds"))
+                {
+                    slike.Add(new Image());
+                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\cloud.png"));
+                }
+                else
+                {
+                    slike.Add(new Image());
+                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
+                }
+                brojac++;
+            }
+            var history = new HistoryWindow(CitiesHistory, this, temperature, slike);
+            history.Show();
+        }
 
+        public void setCityToRefresh(string city)
+        {
+            cityToRefresh = city;
+            setupTimer();
+        }
     }
 }
