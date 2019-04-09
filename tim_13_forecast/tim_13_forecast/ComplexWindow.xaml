@@ -16,21 +16,21 @@
             <Image x:Name="image6" HorizontalAlignment="Left" Height="54" Margin="386,22,0,0" VerticalAlignment="Top" Width="61"/>
             <Image x:Name="image7" HorizontalAlignment="Left" Height="54" Margin="464,22,0,0" VerticalAlignment="Top" Width="61"/>
             <Image x:Name="image8" HorizontalAlignment="Left" Height="54" Margin="543,22,0,0" VerticalAlignment="Top" Width="61"/>
-            <Label x:Name="label11" Content="Label" HorizontalAlignment="Left" Height="24" Margin="23,82,0,0" VerticalAlignment="Top" Width="32" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label11" Content="Label" HorizontalAlignment="Left" Height="24" Margin="23,81,0,0" VerticalAlignment="Top" Width="48" Foreground="#FFFFFEFE"/>
             <Label x:Name="label12" Content="Label" HorizontalAlignment="Left" Height="24" Margin="23,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label21" Content="Label" HorizontalAlignment="Left" Height="24" Margin="98,80,0,0" VerticalAlignment="Top" Width="43" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label21" Content="Label" HorizontalAlignment="Left" Height="24" Margin="98,81,0,0" VerticalAlignment="Top" Width="47" Foreground="#FFFFFEFE"/>
             <Label x:Name="label22" Content="Label" HorizontalAlignment="Left" Height="24" Margin="99,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
             <Label x:Name="label31" Content="Label" HorizontalAlignment="Left" Height="24" Margin="172,81,0,0" VerticalAlignment="Top" Width="46" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label32" Content="Label" HorizontalAlignment="Left" Height="24" Margin="175,102,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label41" Content="Label" HorizontalAlignment="Left" Height="24" Margin="244,82,0,0" VerticalAlignment="Top" Width="43" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label42" Content="Label" HorizontalAlignment="Left" Height="24" Margin="246,102,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label51" Content="Label" HorizontalAlignment="Left" Height="24" Margin="319,80,0,0" VerticalAlignment="Top" Width="44" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label52" Content="Label" HorizontalAlignment="Left" Height="24" Margin="327,101,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label61" Content="Label" HorizontalAlignment="Left" Height="24" Margin="395,81,0,0" VerticalAlignment="Top" Width="42" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label62" Content="Label" HorizontalAlignment="Left" Height="24" Margin="401,102,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label71" Content="Label" HorizontalAlignment="Left" Height="24" Margin="478,81,0,0" VerticalAlignment="Top" Width="39" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label32" Content="Label" HorizontalAlignment="Left" Height="24" Margin="175,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label41" Content="Label" HorizontalAlignment="Left" Height="24" Margin="244,81,0,0" VerticalAlignment="Top" Width="48" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label42" Content="Label" HorizontalAlignment="Left" Height="24" Margin="246,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label51" Content="Label" HorizontalAlignment="Left" Height="24" Margin="319,81,0,0" VerticalAlignment="Top" Width="51" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label52" Content="Label" HorizontalAlignment="Left" Height="24" Margin="327,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label61" Content="Label" HorizontalAlignment="Left" Height="24" Margin="395,81,0,0" VerticalAlignment="Top" Width="52" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label62" Content="Label" HorizontalAlignment="Left" Height="24" Margin="401,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label71" Content="Label" HorizontalAlignment="Left" Height="24" Margin="478,81,0,0" VerticalAlignment="Top" Width="47" Foreground="#FFFFFEFE"/>
             <Label x:Name="label72" Content="Label" HorizontalAlignment="Left" Height="24" Margin="480,103,0,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
-            <Label x:Name="label81" Content="Label" HorizontalAlignment="Left" Height="24" Margin="555,80,0,0" VerticalAlignment="Top" Width="40" Foreground="#FFFFFEFE"/>
+            <Label x:Name="label81" Content="Label" HorizontalAlignment="Left" Height="24" Margin="555,81,0,0" VerticalAlignment="Top" Width="49" Foreground="#FFFFFEFE"/>
             <Label x:Name="label82" Content="Label" HorizontalAlignment="Left" Height="24" Margin="557,103,-14,0" VerticalAlignment="Top" Width="61" Foreground="#FFFFFEFE"/>
 
         </Grid>
