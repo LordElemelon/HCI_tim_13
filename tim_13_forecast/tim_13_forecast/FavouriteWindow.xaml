@@ -10,7 +10,7 @@
     
     <Grid x:Name="GridList" Margin="0,0,0,0" HorizontalAlignment="Left" Width="198">
         
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="319" Margin="-2,0,-48,0" VerticalAlignment="Top" Width="248" x:FieldModifier="public" SelectionChanged="ListView_SelectionChanged" Foreground="#FFE1E8FA" FontFamily="Comic Sans MS" FontStyle="Italic" FontSize="17">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="319" Margin="-2,0,-48,0" VerticalAlignment="Top" Width="248" x:FieldModifier="public" SelectionChanged="ListView_SelectionChanged" Foreground="#FFE1E8FA" FontFamily="Arial" FontStyle="Italic" FontSize="17">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="" Width="242"  />
