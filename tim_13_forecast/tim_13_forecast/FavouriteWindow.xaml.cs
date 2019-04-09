@@ -28,7 +28,7 @@ namespace tim_13_forecast
         {
             InitializeComponent();
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
-            listView.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\fav.jpg")));
+            listView.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\complex.jpg")));
             _owner = owner;
             Closing += this.OnWindowClosing;
 

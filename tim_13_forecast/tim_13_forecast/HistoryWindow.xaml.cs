@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,8 +31,10 @@ namespace tim_13_forecast
         public HistoryWindow(MainWindow mw)// List<string> temperature
         {
             InitializeComponent();
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
             this.mw = mw;
             Closing += this.OnWindowClosing;
+            History.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\complex.jpg")));
         }
 
         public void update(List<string> temperature)//List<string> temperature

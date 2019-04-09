@@ -162,34 +162,32 @@
                     x:Name="searchBox" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="192" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
                     IsTextSearchEnabled="True" ItemsSource="{Binding AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" Foreground="#FF0C466F"/>
                     <Button Grid.Row="0"
-                    x:Name="button" Content="Search" Width="78" 
+                    x:Name="button" Width="30" Height="30"
                     VerticalAlignment="Center"
-                    Margin="485,6,199.6,6.6"
+                    Margin="463,6,222,7"
                     Click="Button_Click_1"/>
                 </Grid>
-                <Grid DockPanel.Dock="Left" Margin="0,0.4,0,0" Width="68">
+                <Grid DockPanel.Dock="Left" Width="42">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="125*"></RowDefinition>
+                        <RowDefinition Height="67*"/>
+                        <RowDefinition Height="62*"/>
+                        <RowDefinition Height="127*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Button
-                    Grid.Row="2"
                     x:Name="favouriteB"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"
+                    Margin="139,-50,-164,132"
                     Padding="2"
                     Style="{StaticResource ResourceKey=Btnn}"
                     Visibility="Visible" Height="45" Width="67"
-                    Click="FavClick"/>
-                    <Button 
-                    Grid.Row="1"
-                    x:Name="button1" Content="History" Width="50" 
+                    Click="FavClick" RenderTransformOrigin="0.501,0.503"/>
+                    <Button
+                    x:Name="button1" Width="30" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"  Height="24" Click="Button1_Click"/>
+                    Margin="211,-35,-199,132"  Height="30" Click="Button1_Click" RenderTransformOrigin="0.696,1.069"/>
                 </Grid>
 
                 <Grid DockPanel.Dock="Bottom" Height="381" Margin="5.4,0,-0.4,0">
@@ -220,13 +218,13 @@
                                 </TransformGroup>
                             </Image.RenderTransform>
                         </Image>
-                        <Label x:Name="Temperatura" Content="Temperatura" Margin="197.6,244,12.6,0.2" 
+                        <Label x:Name="Temperatura" Content="Temperatura" Margin="256,244,3,-0.4" 
                            RenderTransformOrigin="0.599,1.099" FontSize="14" 
-                            Foreground="White" Background="{x:Null}" Grid.Column="1" Grid.ColumnSpan="3"/>
+                            Foreground="White" Background="{x:Null}" Grid.Column="1" Grid.ColumnSpan="6"/>
                         <Label x:Name="Humidity" Content="Humidity" HorizontalAlignment="Left" Height="25" 
-                           Margin="127.6,208,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063" 
-                           Foreground="White" Grid.Column="1" Grid.ColumnSpan="2"/>
-                        <Label x:Name="Wind" Content="Wind" HorizontalAlignment="Left" Margin="17.4,208,0,0" 
+                           Margin="186,208,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063" 
+                           Foreground="White" Grid.Column="1" Grid.ColumnSpan="3"/>
+                        <Label x:Name="Wind" Content="Wind" HorizontalAlignment="Left" Margin="75,208,0,0" 
                            VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.494,0.547" Height="25" 
                             Foreground="White" Grid.Column="2" Grid.ColumnSpan="2"/>
                         <Label x:Name="City" Content="City" HorizontalAlignment="Left" Height="35" Margin="9.8,10,0,0" 
@@ -264,13 +262,13 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="Day1" Foreground="White" Content="Day1" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day1_Click" Grid.Column="0"/>
-                        <Button x:Name="Day2" Foreground="White" Content="Day2" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day2_Click" Grid.Column="1"/>
-                        <Button x:Name="Day3" Foreground="White" Content="Day3" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day3_Click" Grid.Column="2"/>
-                        <Button x:Name="Day5" Foreground="White" Content="Day5" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day5_Click" Grid.Column="4"/>
-                        <Button x:Name="Day4" Foreground="White" Content="Day4" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day4_Click" Grid.Column="3"/>
+                        <Button x:Name="Day1" Foreground="White" Content="Day1" HorizontalAlignment="Center" Height="22" Margin="-25,0,0,0" VerticalAlignment="Center" Width="89" Click="Day1_Click" Grid.Column="0"/>
+                        <Button x:Name="Day2" Foreground="White" Content="Day2" HorizontalAlignment="Center" Height="22" Margin="-25,0,0,0" VerticalAlignment="Center" Width="89" Click="Day2_Click" Grid.Column="1"/>
+                        <Button x:Name="Day3" Foreground="White" Content="Day3" HorizontalAlignment="Center" Height="22" Margin="-25,0,0,0" VerticalAlignment="Center" Width="89" Click="Day3_Click" Grid.Column="2"/>
+                        <Button x:Name="Day5" Foreground="White" Content="Day5" HorizontalAlignment="Center" Height="22" Margin="-25,0,0,0" VerticalAlignment="Center" Width="89" Click="Day5_Click" Grid.Column="4"/>
+                        <Button x:Name="Day4" Foreground="White" Content="Day4" HorizontalAlignment="Center" Height="22" Margin="-25,0,0,0" VerticalAlignment="Center" Width="89" Click="Day4_Click" Grid.Column="3"/>
                     </Grid>
-                    <Grid Grid.Row="2" Margin="0,0,0,0.4">
+                    <Grid Grid.Row="2" Margin="-25,0,0,0.4">
                         <Button x:Name="Detailed_View" Foreground="White" Style="{StaticResource BigBtn}" Content="Detailed View" HorizontalAlignment="Center" Height="21" Margin="0,0,0,0" VerticalAlignment="Center" Width="232" Click="Detailed_View_Click"/>
 
 
