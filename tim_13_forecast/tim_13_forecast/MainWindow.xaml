@@ -90,79 +90,193 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="pack://siteoforigin:,,,/images/SmallButton.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BigBtn" TargetType="{x:Type Button}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="pack://siteoforigin:,,,/images/BigButton.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
     </Window.Resources>
 
+    <Viewbox>
+        <Grid>
 
-    <Grid>
+            <DockPanel>
+
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox 
+                    Grid.Column="3" Grid.Row="0"
+                    x:Name="searchBox" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="192" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
+                    IsTextSearchEnabled="True" ItemsSource="{Binding AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" Foreground="#FF0C466F" FontFamily="Comic Sans MS" />
+                    <Button Grid.Row="0"
+                    x:Name="button" Content="Search" Width="78" 
+                    VerticalAlignment="Center"
+                    Margin="485,6,199.6,6.6"
+                    Click="Button_Click_1" FontFamily="Comic Sans MS"/>
+                </Grid>
+                <Grid DockPanel.Dock="Left" Margin="0,0.4,0,0" Width="68">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="4*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button
+                    Grid.Row="2"
+                    x:Name="favouriteB"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0"
+                    Padding="2"
+                    Style="{StaticResource ResourceKey=Btnn}"
+                    Visibility="Visible" Height="45" Width="67"
+                    Click="FavClick"/>
+                    <Button 
+                    Grid.Row="1"
+                    x:Name="button1" Content="History" Width="50" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0" FontFamily="Comic Sans MS" Height="24"/>
+                </Grid>
+
+                <Grid DockPanel.Dock="Bottom" Height="381" Margin="5.4,0,-0.4,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,0.4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95*" />
+                            <ColumnDefinition Width="195*" />
+                            <ColumnDefinition Width="102*"/>
+                            <ColumnDefinition Width="131*"/>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="65*"/>
+                            <ColumnDefinition Width="26*" />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="image" Margin="76.8,0,116,18.2" Width="400" Height="262" 
+                           RenderTransformOrigin="0.336,0.244" Grid.ColumnSpan="3" Grid.Column="1" VerticalAlignment="Bottom">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0.067"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Label x:Name="Temperatura" Content="Temperatura" Margin="197.6,244,12.6,0.2" 
+                           RenderTransformOrigin="0.599,1.099" FontSize="14" 
+                           FontFamily="Comic Sans MS" Foreground="White" Background="{x:Null}" Grid.Column="1" Grid.ColumnSpan="3"/>
+                        <Label x:Name="Humidity" Content="Humidity" HorizontalAlignment="Left" Height="25" 
+                           Margin="127.6,208,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063" 
+                           FontFamily="Comic Sans MS" Foreground="White" Grid.Column="1" Grid.ColumnSpan="2"/>
+                        <Label x:Name="Wind" Content="Wind" HorizontalAlignment="Left" Margin="17.4,208,0,0" 
+                           VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.494,0.547" Height="25" 
+                           FontFamily="Comic Sans MS" Foreground="White" Grid.Column="2" Grid.ColumnSpan="2"/>
+                        <Label x:Name="City" Content="City" HorizontalAlignment="Left" Height="35" Margin="9.8,10,0,0" 
+                           VerticalAlignment="Top" Width="143" FontSize="16" FontFamily="Comic Sans MS" Foreground="White" Grid.Column="1"/>
+                        <Label x:Name="Overview" Content="Overview" HorizontalAlignment="Left" Margin="45.6,137,0,0" 
+                           VerticalAlignment="Top" Width="129" FontSize="16" FontFamily="Comic Sans MS" Foreground="#FFDBDFEA" 
+                           RenderTransformOrigin="0.694,0.416" Grid.Column="3" Height="66"/>
+                        <Label x:Name="CurTemp" Content="13" Height="73"  Margin="45.8,59,15.2,0" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="40" Opacity="0.9" FontStretch="Expanded" Foreground="White" Grid.ColumnSpan="2" Grid.Column="3">
+                            <Label.Effect>
+                                <DropShadowEffect Color="#FF2A6BA8" BlurRadius="4" Opacity="0.7"/>
+                            </Label.Effect>
+                        </Label>
+                        <ToggleButton
+                        x:Name="favouriteNO"
+                        Margin="82.6,-29,55.6,218.2"
+                        Padding="2"
+                        Style="{StaticResource FavouriteNo}"
+                        Checked="favourite_Checked"
+                        Unchecked="favourite_Checked"
+                        Visibility="Visible" Grid.Column="1"/>
+                        <ToggleButton
+                            x:Name="favouriteYES"
+                            Margin="82.6,-29,55.6,218.2"
+                            Padding="2"
+                            Style="{StaticResource FavouriteYes}"
+                            Checked="favourite_Unchecked"
+                            Unchecked="favourite_Unchecked"
+                            Visibility="Hidden" Grid.Column="1"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Day1" Content="Day1" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day1_Click" FontFamily="Comic Sans MS" Grid.Column="0"/>
+                        <Button x:Name="Day2" Content="Day2" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day2_Click" FontFamily="Comic Sans MS" Grid.Column="1"/>
+                        <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day3_Click" FontFamily="Comic Sans MS" Grid.Column="2"/>
+                        <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day5_Click" FontFamily="Comic Sans MS" Grid.Column="4"/>
+                        <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day4_Click" FontFamily="Comic Sans MS" Grid.Column="3"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,0,0,0.4">
+                        <Button x:Name="Detailed_View" Style="{StaticResource BigBtn}" Content="Detailed View" HorizontalAlignment="Center" Height="21" Margin="0,0,0,0" VerticalAlignment="Center" Width="232" Click="Detailed_View_Click" FontFamily="Comic Sans MS"/>
 
 
 
 
 
-        <DockPanel>
-            <DockPanel DockPanel.Dock="Top">
+                    </Grid>
 
-                <Button
-            x:Name="favouriteB"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="80,-16,0,0"
-            Padding="2"
-            Style="{StaticResource ResourceKey=Btnn}"
-            Visibility="Visible" Height="46" Width="37"/>
-                <Button x:Name="button1" Content="History" Width="75" 
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="20,5,0,0"/>
-                <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="22" Margin="70,0,0,0" VerticalAlignment="Top" Width="277" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
-                  IsTextSearchEnabled="True" ItemsSource="{Binding AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" />
 
-                <Button x:Name="button" Content="Search" Width="75" 
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="0,0,0,0" Click="Button_Click_1"/>
+
+                </Grid>
+
+
+
 
             </DockPanel>
-            <DockPanel DockPanel.Dock="Left">
-                <ToggleButton
-            x:Name="favouriteNO"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="350,-16,0,0"
-            Padding="2"
-            Style="{StaticResource FavouriteNo}"
-            Checked="favourite_Checked"
-            Unchecked="favourite_Checked"
-            Visibility="Visible"/>
-                <ToggleButton
-                x:Name="favouriteYES"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="350,-16,0,0"
-                Padding="2"
-                Style="{StaticResource FavouriteYes}"
-                Checked="favourite_Unchecked"
-                Unchecked="favourite_Unchecked"
-                Visibility="Visible"/>
-                <Image x:Name="image" HorizontalAlignment="Left" Height="86" Margin="-500,50,0,0" VerticalAlignment="Top" Width="83"/>
-                <Label x:Name="Temperatura" Content="Temperatura" HorizontalAlignment="Left" Height="33" Margin="-500,240,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="0.5,0.5" FontSize="14"/>
-                <Label x:Name="Humidity" Content="Humidity" HorizontalAlignment="Left" Height="25" Margin="-500,200,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063"/>
-                <Label x:Name="Wind" Content="Wind" HorizontalAlignment="Left" Margin="-400,200,0,0" VerticalAlignment="Top" Width="136" RenderTransformOrigin="0.494,0.547" Height="32"/>
-                <Label x:Name="City" Content="City" HorizontalAlignment="Left" Height="35" Margin="-500,10,0,0" VerticalAlignment="Top" Width="111" FontSize="16"/>
-                <Label x:Name="Overview" Content="Overview" HorizontalAlignment="Left" Margin="-500,160,0,0" VerticalAlignment="Top" Width="145" FontSize="16"/>
-                <Label x:Name="CurTemp" Content="Label" Height="70"  Margin="-630,60,0,0" VerticalAlignment="Top" Width="100"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom">
-                <Button x:Name="Day1" Content="Day1" HorizontalAlignment="Left" Height="22" Margin="-650,350,0,0" VerticalAlignment="Top" Width="89" Click="Day1_Click"/>
-                <Button x:Name="Day2" Content="Day2" HorizontalAlignment="Left" Height="22" Margin="-550,350,0,0" VerticalAlignment="Top" Width="89" Click="Day2_Click"/>
-                <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="-450,350,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
-                <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="-350,350,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
-                <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="-250,350,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
-
-                <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="-500,300,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
-
-            </DockPanel>
-        </DockPanel>
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>

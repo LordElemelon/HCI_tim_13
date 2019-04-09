@@ -38,7 +38,10 @@ namespace tim_13_forecast
         private FiveDayForecast product;
         private DateTime count;
         private int dayComparison;
-        private string cityToRefresh;
+        public string cityToRefresh;
+        private FavouriteWindow favWin;
+        private ComplexWindow s;
+        
         public List<City> Favourites { get; set; }
         public ObservableCollection<string> AllCityList { get; set; }
         private static System.Timers.Timer guiRefreshTimer;
@@ -115,7 +118,7 @@ namespace tim_13_forecast
             return product;
         }
 
-        public void LoadFavourites()
+        private void LoadFavourites()
         {
 
             using (StreamReader file = File.OpenText("../../favourites.txt"))
@@ -128,7 +131,7 @@ namespace tim_13_forecast
                     Favourites = fav;
                     foreach(City c in fav)
                     {
-                        //listView.Items.Add(c.name + ","+c.country);
+                        favWin.listView.Items.Add(c.name + ","+c.country);
                     }
                 }
             }
@@ -143,7 +146,16 @@ namespace tim_13_forecast
             this.product = new FiveDayForecast();
             this.cityToRefresh = "";
             this.dayComparison = 0;
-           
+            this.favWin = new FavouriteWindow(this);
+            this.s = new ComplexWindow();
+            Closing += this.OnWindowClosing;
+            
+
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
+            this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
+            Day4.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\SmallButton.png")));
+            
+
             #region CityList
             AllCityList = new ObservableCollection<string>();
             AllCityList.Add("London,UK");
@@ -191,6 +203,11 @@ namespace tim_13_forecast
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        private void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
         private async void LocationMethod(string ip)
         {
@@ -254,7 +271,7 @@ namespace tim_13_forecast
         }
 
 
-        private void setupTimer()
+        public void setupTimer()
         {
             if (guiRefreshTimer != null)
             {
@@ -310,8 +327,8 @@ namespace tim_13_forecast
 
         private void Detailed_View_Click(object sender, RoutedEventArgs e)
         {
-            var s = new ComplexWindow();
 
+            s.Show();
             this.Draw(s.image1, product.list[this.dayComparison].weather[0].main);
             s.label11.Content = DateTime.Parse(product.list[this.dayComparison].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison].dt_txt).Minute;
             s.label12.Content = Math.Round(product.list[this.dayComparison].main.temp - 272.15);
@@ -365,15 +382,18 @@ namespace tim_13_forecast
             if (type.Equals("Clear"))
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
+                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\suncano.jpg")));
 
             }
             else if (type.Equals("Clouds"))
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\cloud.png"));
+                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
             }
             else
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
+                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\kisa.jpg")));
             }
         }
 
@@ -402,10 +422,16 @@ namespace tim_13_forecast
         
         private void favourite_Checked(object sender, RoutedEventArgs e)
         {
-               
+
             this.favouriteNO.Visibility = Visibility.Hidden;
             this.favouriteYES.Visibility = Visibility.Visible;
-           
+
+            if (product.city == null)
+            {
+                this.favouriteNO.Visibility = Visibility.Visible;
+                this.favouriteYES.Visibility = Visibility.Hidden;
+                return;
+            }
             bool exists = false;
             for (int i = 0; i < Favourites.Count; i++)
             {
@@ -417,24 +443,25 @@ namespace tim_13_forecast
             if (!exists)
             {
                 Favourites.Add(new City(product.city.id, product.city.name, product.city.coord, product.city.country, product.city.population));
-                //listView.Items.Add(searchBox.Text);
+                favWin.listView.Items.Add(product.city.name + "," + product.city.country);
                 SaveFavourites();
-            }    
+            }
 
 
-    }
+        }
 
     private void favourite_Unchecked(object sender, RoutedEventArgs e)
         {
-           
+
             this.favouriteYES.Visibility = Visibility.Hidden;
+            this.favouriteNO.Visibility = Visibility.Visible;
             this.favouriteNO.Visibility = Visibility.Visible;
             for (int i = 0; i < Favourites.Count; i++)
             {
                 if (product.city.id == Favourites.ElementAt(i).id)
                 {
                     Favourites.Remove(Favourites.ElementAt(i));
-                    //listView.Items.Remove(searchBox.Text);
+                    favWin.listView.Items.Remove(product.city.name + "," + product.city.country);
                     SaveFavourites();
                     break;
                 }
@@ -453,8 +480,18 @@ namespace tim_13_forecast
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
+            string selected_city = null;
             bool found = false;
-            string selected_city = searchBox.SelectedValue.ToString();
+            try
+            {
+                selected_city = searchBox.SelectedValue.ToString();
+
+            }
+            catch
+            {
+                return;
+            }
+            
             for (int i = 0; i < Favourites.Count; i++)
             {
                 if (selected_city == Favourites.ElementAt(i).name + "," + Favourites.ElementAt(i).country)
@@ -508,17 +545,12 @@ namespace tim_13_forecast
 
         }
 
-        private void ListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void FavClick(object sender, RoutedEventArgs e)
         {
-            var item = (sender as ListView).SelectedItem;
-            if (item != null)
-            {
-                this.cityToRefresh = (string) item;
-                setupTimer();
-
-            }
-            
-            
+            favWin.Show();
         }
+
+
+
     }
 }
