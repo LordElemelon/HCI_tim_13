@@ -7,7 +7,8 @@
         xmlns:models="clr-namespace:tim_13_forecast.models" x:Class="tim_13_forecast.MainWindow"
         xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        ResizeMode="CanResizeWithGrip">
     <Window.Resources>
 
         <Style x:Key="FavouriteYes" TargetType="{x:Type ToggleButton}">
@@ -91,35 +92,40 @@
         </Style>
 
     </Window.Resources>
+
+
     <Grid>
 
 
-        <Image x:Name="image" HorizontalAlignment="Left" Height="124" Margin="305,100,0,0" VerticalAlignment="Top" Width="167"/>
-        <Label x:Name="Temperatura" Content="Label" HorizontalAlignment="Left" Height="67" Margin="292,247,0,0" VerticalAlignment="Top" Width="99" RenderTransformOrigin="0.5,0.5" FontSize="14">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.327"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label x:Name="Humidity" Content="Label" HorizontalAlignment="Left" Height="25" Margin="416,249,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063"/>
-        <Label x:Name="Wind" Content="Label" HorizontalAlignment="Left" Margin="416,289,0,0" VerticalAlignment="Top" Width="169"/>
-        <Label x:Name="City" Content="Label" HorizontalAlignment="Left" Height="35" Margin="54,120,0,0" VerticalAlignment="Top" Width="145" FontSize="16"/>
-        <Label x:Name="Overview" Content="Label" HorizontalAlignment="Left" Margin="54,160,0,0" VerticalAlignment="Top" Width="145" FontSize="16"/>
-        <Button x:Name="Day1" Content="Day1" HorizontalAlignment="Left" Height="22" Margin="151,365,0,0" VerticalAlignment="Top" Width="89" Click="Day1_Click"/>
-        <Button x:Name="Day2" Content="Day2" HorizontalAlignment="Left" Height="22" Margin="264,365,0,0" VerticalAlignment="Top" Width="89" Click="Day2_Click"/>
-        <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="383,365,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
-        <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="496,365,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
-        <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="614,365,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
 
-        <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="305,329,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
-        <Grid HorizontalAlignment="Left" Height="26" Margin="0,0,-0.4,0" VerticalAlignment="Top" Width="794">
-            <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="26" Margin="517,0,0,0" VerticalAlignment="Top" Width="277" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
+
+
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+
+                <Button
+            x:Name="favouriteB"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="80,-16,0,0"
+            Padding="2"
+            Style="{StaticResource ResourceKey=Btnn}"
+            Visibility="Visible" Height="46" Width="37"/>
+                <Button x:Name="button1" Content="History" Width="75" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="20,5,0,0"/>
+                <ComboBox x:Name="searchBox" HorizontalAlignment="Left" Height="22" Margin="70,0,0,0" VerticalAlignment="Top" Width="277" TextBoxBase.TextChanged="ComboBox_TextChanged" IsEditable="True" 
                   IsTextSearchEnabled="True" ItemsSource="{Binding AllCityList}" DropDownClosed="ComboBox_DropDownClosed" KeyUp="searchBox_KeyUp" />
-            <ToggleButton
+
+                <Button x:Name="button" Content="Search" Width="75" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="0,0,0,0" Click="Button_Click_1"/>
+
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Left">
+                <ToggleButton
             x:Name="favouriteNO"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -129,7 +135,7 @@
             Checked="favourite_Checked"
             Unchecked="favourite_Checked"
             Visibility="Visible"/>
-            <ToggleButton
+                <ToggleButton
                 x:Name="favouriteYES"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -138,15 +144,25 @@
                 Style="{StaticResource FavouriteYes}"
                 Checked="favourite_Unchecked"
                 Unchecked="favourite_Unchecked"
-                Visibility="Hidden"/>
-            <Button
-            x:Name="favouriteB"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="0,-16,0,0"
-            Padding="2"
-            Style="{StaticResource ResourceKey=Btnn}"
-            Visibility="Visible" Height="46" Width="37"/>
-        </Grid>
+                Visibility="Visible"/>
+                <Image x:Name="image" HorizontalAlignment="Left" Height="86" Margin="-500,50,0,0" VerticalAlignment="Top" Width="83"/>
+                <Label x:Name="Temperatura" Content="Temperatura" HorizontalAlignment="Left" Height="33" Margin="-500,240,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="0.5,0.5" FontSize="14"/>
+                <Label x:Name="Humidity" Content="Humidity" HorizontalAlignment="Left" Height="25" Margin="-500,200,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.976,-0.063"/>
+                <Label x:Name="Wind" Content="Wind" HorizontalAlignment="Left" Margin="-400,200,0,0" VerticalAlignment="Top" Width="136" RenderTransformOrigin="0.494,0.547" Height="32"/>
+                <Label x:Name="City" Content="City" HorizontalAlignment="Left" Height="35" Margin="-500,10,0,0" VerticalAlignment="Top" Width="111" FontSize="16"/>
+                <Label x:Name="Overview" Content="Overview" HorizontalAlignment="Left" Margin="-500,160,0,0" VerticalAlignment="Top" Width="145" FontSize="16"/>
+                <Label x:Name="CurTemp" Content="Label" Height="70"  Margin="-630,60,0,0" VerticalAlignment="Top" Width="100"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button x:Name="Day1" Content="Day1" HorizontalAlignment="Left" Height="22" Margin="-650,350,0,0" VerticalAlignment="Top" Width="89" Click="Day1_Click"/>
+                <Button x:Name="Day2" Content="Day2" HorizontalAlignment="Left" Height="22" Margin="-550,350,0,0" VerticalAlignment="Top" Width="89" Click="Day2_Click"/>
+                <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Left" Height="22" Margin="-450,350,0,0" VerticalAlignment="Top" Width="89" Click="Day3_Click"/>
+                <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Left" Height="22" Margin="-350,350,0,0" VerticalAlignment="Top" Width="89" Click="Day4_Click"/>
+                <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Left" Height="22" Margin="-250,350,0,0" VerticalAlignment="Top" Width="89" Click="Day5_Click"/>
+
+                <Button x:Name="Detailed_View" Content="Detailed View" HorizontalAlignment="Left" Height="21" Margin="-500,300,0,0" VerticalAlignment="Top" Width="232" Click="Detailed_View_Click"/>
+
+            </DockPanel>
+        </DockPanel>
     </Grid>
 </Window>

@@ -8,13 +8,8 @@ namespace tim_13_forecast.models3
 {
     class IP
     {
-        public Language language { get; set; }
-        public Location location { get; set; }
-        public TimeZone timezone { get; set; }
-        public Currency currency { get; set; }
-        public Connection connection { get; set; }
-        public Security security { get; set; }
-        public RootObject rootobject { get; set; }
+       public double latitude { get; set; }
+        public double longitude { get; set; }
     }
 
     public class Language
