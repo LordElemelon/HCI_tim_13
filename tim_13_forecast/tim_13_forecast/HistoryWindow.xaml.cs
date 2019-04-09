@@ -26,14 +26,18 @@ namespace tim_13_forecast
     {
         MainWindow mw;
 
-        public HistoryWindow(List<City> CitiesHistory, MainWindow mw, List<string> temperature, List<Image> slike)
+        public HistoryWindow(MainWindow mw)// List<string> temperature
         {
             InitializeComponent();
             this.mw = mw;
+            Closing += this.OnWindowClosing;
+        }
 
+        public void update(List<string> temperature)//List<string> temperature
+        {
             History.Items.Clear();
             int brojac = 0;
-            foreach (City city in CitiesHistory)
+            foreach (City city in mw.CitiesHistory)
             {
                 ServerListItem item = new ServerListItem
                 {
@@ -44,8 +48,13 @@ namespace tim_13_forecast
                 History.Items.Add(item);
                 brojac++;
             }
+            //this.History.Items.Refresh();
         }
-
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
         private void History_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
 

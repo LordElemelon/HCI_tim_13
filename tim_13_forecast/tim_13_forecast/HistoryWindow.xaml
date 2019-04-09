@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tim_13_forecast"
         mc:Ignorable="d"
-        Title="History" Height="182.143" Width="265.143">
-    <Grid>
+        Title="History" Height="319.481" Width="265.143">
+    <Grid Margin="0,0,0,-2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="133*"/>
             <ColumnDefinition Width="124*"/>
         </Grid.ColumnDefinitions>
-        <ListView Name="History" HorizontalAlignment="Left" Height="131" Margin="10,10,0,0" VerticalAlignment="Top" Width="237" SelectionChanged="History_SelectionChanged_1" Grid.ColumnSpan="2">
+        <ListView Name="History" HorizontalAlignment="Left" Height="270" Margin="10,10,0,0" VerticalAlignment="Top" Width="237" SelectionChanged="History_SelectionChanged_1" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="City" Width="100" DisplayMemberBinding="{Binding Path=City}"/>

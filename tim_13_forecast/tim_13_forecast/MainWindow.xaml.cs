@@ -40,6 +40,7 @@ namespace tim_13_forecast
         private int dayComparison;
         public string cityToRefresh;
         private FavouriteWindow favWin;
+        private HistoryWindow history_window;
         private ComplexWindow s;
         public List<City> CitiesHistory { get; set; }
         public List<City> Favourites { get; set; }
@@ -147,9 +148,11 @@ namespace tim_13_forecast
             this.cityToRefresh = "";
             this.dayComparison = 0;
             this.favWin = new FavouriteWindow(this);
+            CitiesHistory = new List<City>(10);
+
+            this.history_window = new HistoryWindow(this);
             this.s = new ComplexWindow();
             Closing += this.OnWindowClosing;
-            CitiesHistory = new List<City>(10);
 
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
             this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
@@ -477,7 +480,7 @@ namespace tim_13_forecast
 
         }
 
-        private void ComboBox_DropDownClosed(object sender, EventArgs e)
+        private  void ComboBox_DropDownClosed(object sender, EventArgs e)
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
@@ -534,7 +537,17 @@ namespace tim_13_forecast
             }
             CitiesHistory.Insert(0, currentCity);
 
+            //Sledeci deo koda update-uje history prozor
 
+            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
+            List<string> temperature = new List<string>();
+            foreach (City city in CitiesHistory)
+            {
+                var product1 = await GetFiveDayAsync(apiFiveDayUrl + city.name + "," + city.country + apiAppId);
+                string temperatura = product1.list[dayComparison].main.temp_min + "/" + product.list[dayComparison].main.temp_max;
+                temperature.Add(temperatura);
+            }
+            history_window.update(temperature);
 
         }
 
@@ -579,36 +592,8 @@ namespace tim_13_forecast
 
         private async void Button1_Click(object sender, RoutedEventArgs e)
         {
-            string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
-            List<string> temperature = new List<string>();
-            List<Image> slike = new List<Image>();
-            int brojac = 0;
-            foreach (City city in CitiesHistory)
-            {
-                var product1 = await GetFiveDayAsync(apiFiveDayUrl + city.name + "," + city.country + apiAppId);
-                string temperatura = product1.list[dayComparison].main.temp_min + "/" + product.list[dayComparison].main.temp_max;
-                temperature.Add(temperatura);
-                string type = product1.list[dayComparison].weather[0].main;
-                if (type.Equals("Clear"))
-                {
-                    slike.Add(new Image());
-                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
-
-                }
-                else if (type.Equals("Clouds"))
-                {
-                    slike.Add(new Image());
-                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\cloud.png"));
-                }
-                else
-                {
-                    slike.Add(new Image());
-                    slike.ElementAt(brojac).Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
-                }
-                brojac++;
-            }
-            var history = new HistoryWindow(CitiesHistory, this, temperature, slike);
-            history.Show();
+            
+            history_window.Show();
         }
 
         public void setCityToRefresh(string city)
