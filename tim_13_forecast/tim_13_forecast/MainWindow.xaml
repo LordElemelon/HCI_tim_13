@@ -109,7 +109,11 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="pack://siteoforigin:,,,/images/SmallButton.png" Opacity="0.6"/>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -130,7 +134,11 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="pack://siteoforigin:,,,/images/BigButton.png" Opacity="0.6"/>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -256,14 +264,14 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="Day1" Content="Day1" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day1_Click" Grid.Column="0"/>
-                        <Button x:Name="Day2" Content="Day2" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day2_Click" Grid.Column="1"/>
-                        <Button x:Name="Day3" Content="Day3" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day3_Click" Grid.Column="2"/>
-                        <Button x:Name="Day5" Content="Day5" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day5_Click" Grid.Column="4"/>
-                        <Button x:Name="Day4" Content="Day4" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day4_Click" Grid.Column="3"/>
+                        <Button x:Name="Day1" Foreground="White" Content="Day1" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day1_Click" Grid.Column="0"/>
+                        <Button x:Name="Day2" Foreground="White" Content="Day2" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day2_Click" Grid.Column="1"/>
+                        <Button x:Name="Day3" Foreground="White" Content="Day3" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day3_Click" Grid.Column="2"/>
+                        <Button x:Name="Day5" Foreground="White" Content="Day5" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day5_Click" Grid.Column="4"/>
+                        <Button x:Name="Day4" Foreground="White" Content="Day4" HorizontalAlignment="Center" Height="22" Margin="0,0,0,0" VerticalAlignment="Center" Width="89" Click="Day4_Click" Grid.Column="3"/>
                     </Grid>
                     <Grid Grid.Row="2" Margin="0,0,0,0.4">
-                        <Button x:Name="Detailed_View" Style="{StaticResource BigBtn}" Content="Detailed View" HorizontalAlignment="Center" Height="21" Margin="0,0,0,0" VerticalAlignment="Center" Width="232" Click="Detailed_View_Click"/>
+                        <Button x:Name="Detailed_View" Foreground="White" Style="{StaticResource BigBtn}" Content="Detailed View" HorizontalAlignment="Center" Height="21" Margin="0,0,0,0" VerticalAlignment="Center" Width="232" Click="Detailed_View_Click"/>
 
 
 

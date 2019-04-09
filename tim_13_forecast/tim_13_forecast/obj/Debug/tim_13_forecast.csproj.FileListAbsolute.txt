@@ -269,3 +269,16 @@ C:\Users\smilja\Desktop\hci najnajnoviji\tim_13_forecast\tim_13_forecast\obj\Deb
 C:\Users\smilja\Desktop\hci najnajnoviji\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.csproj.CopyComplete
 C:\Users\smilja\Desktop\hci najnajnoviji\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.exe
 C:\Users\smilja\Desktop\hci najnajnoviji\tim_13_forecast\tim_13_forecast\obj\Debug\tim_13_forecast.pdb
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\FavouriteWindow.g.cs
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\HistoryWindow.g.cs
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\cloud.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\complex.jpg
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\kisa.jpg
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\oblacno.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\rain.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\SmallButton.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\sun.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\suncano.jpg
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\bin\Debug\images\BigButton.png
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\FavouriteWindow.baml
+C:\Users\LordElemelon\Git\HCI_tim_13\tim_13_forecast\tim_13_forecast\obj\Debug\HistoryWindow.baml

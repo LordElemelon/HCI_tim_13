@@ -210,6 +210,7 @@ namespace tim_13_forecast
 
         private void OnWindowClosing(object sender, CancelEventArgs e)
         {
+            this.Dispatcher.InvokeShutdown();
             Application.Current.Shutdown();
         }
         private async void LocationMethod(string ip)
@@ -239,35 +240,54 @@ namespace tim_13_forecast
         {
             await this.Dispatcher.Invoke(async () =>
             {
-                product = await GetFiveDayAsync(apiFiveDayUrl + cityToRefresh + apiAppId);
-                City.Content = cityToRefresh;
-
-                this.Day1.Content = DateTime.Parse(product.list[0].dt_txt).Day + "/" + DateTime.Parse(product.list[0].dt_txt).Month + "/" + DateTime.Parse(product.list[0].dt_txt).Year;
-                this.Day2.Content = DateTime.Parse(product.list[8].dt_txt).Day + "/" + DateTime.Parse(product.list[8].dt_txt).Month + "/" + DateTime.Parse(product.list[8].dt_txt).Year;
-                this.Day3.Content = DateTime.Parse(product.list[16].dt_txt).Day + "/" + DateTime.Parse(product.list[16].dt_txt).Month + "/" + DateTime.Parse(product.list[16].dt_txt).Year;
-                this.Day4.Content = DateTime.Parse(product.list[24].dt_txt).Day + "/" + DateTime.Parse(product.list[24].dt_txt).Month + "/" + DateTime.Parse(product.list[24].dt_txt).Year;
-                this.Day5.Content = DateTime.Parse(product.list[32].dt_txt).Day + "/" + DateTime.Parse(product.list[31].dt_txt).Month + "/" + DateTime.Parse(product.list[31].dt_txt).Year;
-                Overview.Content = product.list[dayComparison].weather[0].description;
-
-                double min = 900000, max = 0;
-                for (int i = 0; i < 7; i++)
+                try
                 {
-                    if (min > product.list[dayComparison + i].main.temp_min)
+                    product = await GetFiveDayAsync(apiFiveDayUrl + cityToRefresh + apiAppId);
+
+                    this.Day1.Content = DateTime.Parse(product.list[0].dt_txt).Day + "/" + DateTime.Parse(product.list[0].dt_txt).Month + "/" + DateTime.Parse(product.list[0].dt_txt).Year;
+                    this.Day2.Content = DateTime.Parse(product.list[8].dt_txt).Day + "/" + DateTime.Parse(product.list[8].dt_txt).Month + "/" + DateTime.Parse(product.list[8].dt_txt).Year;
+                    this.Day3.Content = DateTime.Parse(product.list[16].dt_txt).Day + "/" + DateTime.Parse(product.list[16].dt_txt).Month + "/" + DateTime.Parse(product.list[16].dt_txt).Year;
+                    this.Day4.Content = DateTime.Parse(product.list[24].dt_txt).Day + "/" + DateTime.Parse(product.list[24].dt_txt).Month + "/" + DateTime.Parse(product.list[24].dt_txt).Year;
+                    this.Day5.Content = DateTime.Parse(product.list[32].dt_txt).Day + "/" + DateTime.Parse(product.list[31].dt_txt).Month + "/" + DateTime.Parse(product.list[31].dt_txt).Year;
+                    Overview.Content = product.list[dayComparison].weather[0].description;
+
+                    double min = 900000, max = 0;
+                    for (int i = 0; i < 7; i++)
                     {
-                        min = product.list[dayComparison + i].main.temp_min;
+                        if (min > product.list[dayComparison + i].main.temp_min)
+                        {
+                            min = product.list[dayComparison + i].main.temp_min;
+                        }
+                        if (max < product.list[dayComparison + i].main.temp_max)
+                        {
+                            max = product.list[dayComparison + i].main.temp_max;
+                        }
                     }
-                    if (max < product.list[dayComparison + i].main.temp_max)
+
+                    Temperatura.Content = Math.Round(min - 272.15) + "°C" + "/" + Math.Round(max - 272.15) + "°C";
+                    CurTemp.Content = Math.Round(product.list[dayComparison].main.temp - 272.15) + "°C";
+                    Humidity.Content = "Humidity: " + product.list[dayComparison].main.humidity + "%";
+                    Wind.Content = "Wind: " + product.list[dayComparison].wind.speed + "km/s";
+                    City.Content = cityToRefresh;
+                    this.Draw(image, product.list[dayComparison].weather[0].main, true);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is NullReferenceException)
                     {
-                        max = product.list[dayComparison + i].main.temp_max;
+                        MessageBox.Show("Cannot find information for city. Please check your spelling or try another, larger city.", "Unknown city", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot contact server. Please check your internet connection and try again later.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    cityToRefresh = "";
+                    if (guiRefreshTimer != null)
+                    {
+                        guiRefreshTimer.Stop();
+                        guiRefreshTimer.Dispose();
                     }
                 }
-
-                Temperatura.Content = Math.Round(min - 272.15) + "°C" + "/" + Math.Round(max - 272.15) + "°C";
-                CurTemp.Content = Math.Round(product.list[dayComparison].main.temp - 272.15) + "°C";
-                Humidity.Content = "Humidity: " + product.list[dayComparison].main.humidity + "%";
-                Wind.Content = "Wind: " + product.list[dayComparison].wind.speed + "km/s";
-                this.Draw(image, product.list[dayComparison].weather[0].main);
-                
             });
 
         }
@@ -281,17 +301,21 @@ namespace tim_13_forecast
                 guiRefreshTimer.Dispose();
             }
             refreshGui();
-            guiRefreshTimer = new System.Timers.Timer(5000);
-            guiRefreshTimer.Elapsed += refreshGui;
-            guiRefreshTimer.AutoReset = true;
-            guiRefreshTimer.Enabled = true;
+            if (cityToRefresh != "")
+            {
+                guiRefreshTimer = new System.Timers.Timer(5000);
+                guiRefreshTimer.Elapsed += refreshGui;
+                guiRefreshTimer.AutoReset = true;
+                guiRefreshTimer.Enabled = true;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
-            AddToHistory();
+            if (cityToRefresh != "")
+                AddToHistory(product.city);
 
         }
 
@@ -329,47 +353,55 @@ namespace tim_13_forecast
             setupTimer();
         }
 
+        private string ToTwoDigit(int num)
+        {
+            string ret = "" + num;
+            if (ret.Length == 1)
+                ret = "0" + ret;
+            return ret;
+        }
+
         private void Detailed_View_Click(object sender, RoutedEventArgs e)
         {
 
             s.Show();
-            this.Draw(s.image1, product.list[this.dayComparison].weather[0].main);
-            s.label11.Content = DateTime.Parse(product.list[this.dayComparison].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison].dt_txt).Minute;
-            s.label12.Content = Math.Round(product.list[this.dayComparison].main.temp - 272.15);
+            this.Draw(s.image1, product.list[this.dayComparison].weather[0].main, false);
+            s.label11.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison].dt_txt).Minute);
+            s.label12.Content = Math.Round(product.list[this.dayComparison].main.temp - 272.15) + "°C";
 
-            this.Draw(s.image2, product.list[this.dayComparison + 1].weather[0].main);
-            s.label21.Content = DateTime.Parse(product.list[this.dayComparison + 1].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 1].dt_txt).Minute;
-            s.label22.Content = Math.Round(product.list[this.dayComparison + 1].main.temp - 272.15);
-
-
-            this.Draw(s.image3, product.list[this.dayComparison + 2].weather[0].main);
-            s.label31.Content = DateTime.Parse(product.list[this.dayComparison + 2].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 2].dt_txt).Minute;
-            s.label32.Content = Math.Round(product.list[this.dayComparison + 2].main.temp - 272.15);
+            this.Draw(s.image2, product.list[this.dayComparison + 1].weather[0].main, false);
+            s.label21.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 1].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 1].dt_txt).Minute);
+            s.label22.Content = Math.Round(product.list[this.dayComparison + 1].main.temp - 272.15) + "°C";
 
 
-            this.Draw(s.image4, product.list[this.dayComparison + 3].weather[0].main);
-            s.label41.Content = DateTime.Parse(product.list[this.dayComparison + 3].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 3].dt_txt).Minute;
-            s.label42.Content = Math.Round(product.list[this.dayComparison + 3].main.temp - 272.15);
+            this.Draw(s.image3, product.list[this.dayComparison + 2].weather[0].main, false);
+            s.label31.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 2].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 2].dt_txt).Minute);
+            s.label32.Content = Math.Round(product.list[this.dayComparison + 2].main.temp - 272.15) + "°C";
 
 
-            this.Draw(s.image5, product.list[this.dayComparison + 4].weather[0].main);
-            s.label51.Content = DateTime.Parse(product.list[this.dayComparison + 4].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 4].dt_txt).Minute;
-            s.label52.Content = Math.Round(product.list[this.dayComparison + 4].main.temp - 272.15);
+            this.Draw(s.image4, product.list[this.dayComparison + 3].weather[0].main, false);
+            s.label41.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 3].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 3].dt_txt).Minute);
+            s.label42.Content = Math.Round(product.list[this.dayComparison + 3].main.temp - 272.15) + "°C";
 
 
-            this.Draw(s.image6, product.list[this.dayComparison + 5].weather[0].main);
-            s.label61.Content = DateTime.Parse(product.list[this.dayComparison + 5].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 5].dt_txt).Minute;
-            s.label62.Content = Math.Round(product.list[this.dayComparison + 5].main.temp - 272.15);
+            this.Draw(s.image5, product.list[this.dayComparison + 4].weather[0].main, false);
+            s.label51.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 4].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 4].dt_txt).Minute);
+            s.label52.Content = Math.Round(product.list[this.dayComparison + 4].main.temp - 272.15) + "°C";
 
 
-            this.Draw(s.image7, product.list[this.dayComparison + 6].weather[0].main);
-            s.label71.Content = DateTime.Parse(product.list[this.dayComparison + 6].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 6].dt_txt).Minute;
-            s.label72.Content = Math.Round(product.list[this.dayComparison + 6].main.temp - 272.15);
+            this.Draw(s.image6, product.list[this.dayComparison + 5].weather[0].main, false);
+            s.label61.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 5].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 5].dt_txt).Minute);
+            s.label62.Content = Math.Round(product.list[this.dayComparison + 5].main.temp - 272.15) + "°C";
 
 
-            this.Draw(s.image8, product.list[this.dayComparison + 7].weather[0].main);
-            s.label81.Content = DateTime.Parse(product.list[this.dayComparison + 7].dt_txt).Hour + ":" + DateTime.Parse(product.list[this.dayComparison + 7].dt_txt).Minute;
-            s.label82.Content = Math.Round(product.list[this.dayComparison + 7].main.temp - 272.15);
+            this.Draw(s.image7, product.list[this.dayComparison + 6].weather[0].main, false);
+            s.label71.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 6].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 6].dt_txt).Minute);
+            s.label72.Content = Math.Round(product.list[this.dayComparison + 6].main.temp - 272.15) + "°C";
+
+
+            this.Draw(s.image8, product.list[this.dayComparison + 7].weather[0].main, false);
+            s.label81.Content = ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 7].dt_txt).Hour) + ":" + ToTwoDigit(DateTime.Parse(product.list[this.dayComparison + 7].dt_txt).Minute);
+            s.label82.Content = Math.Round(product.list[this.dayComparison + 7].main.temp - 272.15) + "°C";
 
 
 
@@ -379,25 +411,25 @@ namespace tim_13_forecast
         }
 
 
-        private void Draw(Image image, string type)
+        private void Draw(Image image, string type, Boolean changeBg)
         {
             string path = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).FullName).FullName;
 
             if (type.Equals("Clear"))
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\sun.png"));
-                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\suncano.jpg")));
+                if (changeBg) this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\suncano.jpg")));
 
             }
             else if (type.Equals("Clouds"))
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\cloud.png"));
-                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
+                if (changeBg) this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\oblacno.png")));
             }
             else
             {
                 image.Source = new BitmapImage(new Uri(path + @"\images\rain.png"));
-                this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\kisa.jpg")));
+                if (changeBg) this.Background = new ImageBrush(new BitmapImage(new Uri(path + @"\images\kisa.jpg")));
             }
         }
 
@@ -484,7 +516,8 @@ namespace tim_13_forecast
         {
             this.cityToRefresh = searchBox.Text;
             setupTimer();
-            AddToHistory();
+            if (cityToRefresh != "")
+                AddToHistory(product.city);
 
             string selected_city = null;
             bool found = false;
@@ -516,12 +549,8 @@ namespace tim_13_forecast
 
         }
 
-        private async void AddToHistory()
+        private async void AddToHistory(City currentCity)
         {
-            product = await GetFiveDayAsync(apiFiveDayUrl + searchBox.Text + apiAppId);
-            City currentCity = product.city;
-            City.Content = searchBox.Text;
-
             foreach (City city in CitiesHistory)
             {
                 if (city.id.Equals(currentCity.id))
@@ -544,7 +573,7 @@ namespace tim_13_forecast
             foreach (City city in CitiesHistory)
             {
                 var product1 = await GetFiveDayAsync(apiFiveDayUrl + city.name + "," + city.country + apiAppId);
-                string temperatura = product1.list[dayComparison].main.temp_min + "/" + product.list[dayComparison].main.temp_max;
+                string temperatura = product1.list[dayComparison].main.temp_min + "/" + product1.list[dayComparison].main.temp_max;
                 temperature.Add(temperatura);
             }
             history_window.update(temperature);
